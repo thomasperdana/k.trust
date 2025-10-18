@@ -595,6 +595,35 @@
             outline: 2px solid rgba(124,58,237,0.4);
             outline-offset: 3px;
         }
+
+        .close-video {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 4;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .svg-container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* when video is active, hide svg and allow video to take full width in the hero column */
+        .hero-visual.video-active .svg-container {
+            display: none;
+        }
+
+        .hero-visual.video-active .video-wrapper {
+            max-width: 100%;
+            padding-bottom: 56.25%;
+        }
     </style>
 </head>
 <body>
@@ -641,11 +670,13 @@
                 <div class="hero-visual">
                     <div class="video-wrapper">
                         <button class="show-video" aria-label="Play video">▶ Watch Video</button>
+                        <button class="close-video" aria-label="Close video" style="display:none">✕</button>
                         <div class="video-inner" data-src="https://www.youtube.com/embed/m7zUUX8O9dk" aria-hidden="true">
                             <!-- iframe will be injected lazily -->
                         </div>
                     </div>
-                    <svg class="trust-diagram" viewBox="0 0 500 400">
+                    <div class="svg-container">
+                        <svg class="trust-diagram" viewBox="0 0 500 400">
                         <!-- Trust Circle -->
                         <circle cx="250" cy="200" r="150" fill="none" stroke="#4a6bff" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
                         
@@ -686,8 +717,8 @@
                         
                         <path d="M 125 290 Q 160 260 200 230" fill="none" stroke="#4a6bff" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.7"/>
                         <path d="M 300 230 Q 340 260 375 290" fill="none" stroke="#4a6bff" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.7"/>
-                    </svg>
-                </div>
+                        </svg>
+                    </div>
             </div>
         </div>
     </section>
@@ -1365,46 +1396,76 @@
             observer.observe(card);
         });
 
-        // Lazy-load hero YouTube iframe
+        // Lazy-load hero YouTube iframe and toggle SVG/video visibility
         (function() {
             const wrapper = document.querySelector('.video-wrapper');
-            if (!wrapper) return;
+            const heroVisual = document.querySelector('.hero-visual');
+            if (!wrapper || !heroVisual) return;
             const btn = wrapper.querySelector('.show-video');
+            const closeBtn = wrapper.querySelector('.close-video');
             const inner = wrapper.querySelector('.video-inner');
             const src = inner.getAttribute('data-src');
 
-            function loadIframe() {
-                if (inner.querySelector('iframe')) return;
+            function createIframe(autoplay = true) {
+                if (inner.querySelector('iframe')) return inner.querySelector('iframe');
                 const iframe = document.createElement('iframe');
-                iframe.setAttribute('src', src + '?rel=0&modestbranding=1&autoplay=1');
+                iframe.setAttribute('src', src + (autoplay ? '?rel=0&modestbranding=1&autoplay=1' : '?rel=0&modestbranding=1'));
                 iframe.setAttribute('loading', 'lazy');
                 iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
                 iframe.setAttribute('allowfullscreen', '');
                 inner.appendChild(iframe);
                 inner.setAttribute('aria-hidden', 'false');
-                btn.style.display = 'none';
+                return iframe;
             }
 
-            btn.addEventListener('click', loadIframe);
+            function openVideo() {
+                createIframe(true);
+                heroVisual.classList.add('video-active');
+                btn.style.display = 'none';
+                closeBtn.style.display = 'block';
+                // move focus to close button for accessibility
+                closeBtn.focus();
+            }
+
+            function closeVideo() {
+                const iframe = inner.querySelector('iframe');
+                if (iframe) {
+                    iframe.remove();
+                }
+                inner.setAttribute('aria-hidden', 'true');
+                heroVisual.classList.remove('video-active');
+                btn.style.display = '';
+                closeBtn.style.display = 'none';
+                btn.focus();
+            }
+
+            btn.addEventListener('click', openVideo);
             btn.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    loadIframe();
+                    openVideo();
                 }
             });
 
-            // Preload when wrapper intersects viewport (but don't autoplay until click)
+            closeBtn.addEventListener('click', closeVideo);
+            closeBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    closeVideo();
+                }
+            });
+
+            // Preload placeholder when wrapper intersects viewport (no autoplay)
             const preloadObserver = new IntersectionObserver((entries, obs) => {
                 entries.forEach(en => {
                     if (en.isIntersecting) {
-                        // create a low-bandwidth placeholder via srcdoc if supported
                         if (!inner.querySelector('iframe')) {
+                            // create a tiny placeholder iframe to warm up connection
                             const placeholder = document.createElement('iframe');
                             placeholder.setAttribute('loading', 'lazy');
                             placeholder.setAttribute('src', 'about:blank');
                             placeholder.style.opacity = '0';
                             inner.appendChild(placeholder);
-                            // leave actual src for the click handler to set autoplay
                         }
                         obs.disconnect();
                     }
