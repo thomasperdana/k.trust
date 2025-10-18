@@ -552,16 +552,16 @@
             background: linear-gradient(135deg, rgba(20,24,40,0.6), rgba(30,41,59,0.6));
             border-radius: 12px;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             box-shadow: 0 8px 30px rgba(0,0,0,0.4);
             border: 1px solid var(--border-color);
         }
 
         .video-inner {
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             width: 100%;
             height: 100%;
             display: flex;
@@ -573,6 +573,9 @@
             width: 100%;
             height: 100%;
             border: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .show-video {
@@ -623,6 +626,25 @@
         .hero-visual.video-active .video-wrapper {
             max-width: 100%;
             padding-bottom: 56.25%;
+        }
+
+        /* Improved responsive video behavior */
+        @media (max-width: 1200px) {
+            .video-wrapper {
+                max-width: 450px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .video-wrapper {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .hero-visual.video-active .video-wrapper {
+                max-width: 100%;
+                padding-bottom: 56.25%;
+            }
         }
     </style>
 </head>
@@ -1409,12 +1431,20 @@
             function createIframe(autoplay = true) {
                 if (inner.querySelector('iframe')) return inner.querySelector('iframe');
                 const iframe = document.createElement('iframe');
-                iframe.setAttribute('src', src + (autoplay ? '?rel=0&modestbranding=1&autoplay=1' : '?rel=0&modestbranding=1'));
+                iframe.setAttribute('src', src + (autoplay ? '?rel=0&modestbranding=1&autoplay=1&mute=1' : '?rel=0&modestbranding=1'));
                 iframe.setAttribute('loading', 'lazy');
                 iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
                 iframe.setAttribute('allowfullscreen', '');
+                iframe.style.opacity = '0';
+                iframe.style.transition = 'opacity 0.3s ease-in-out';
                 inner.appendChild(iframe);
                 inner.setAttribute('aria-hidden', 'false');
+
+                // Fade in the iframe once loaded
+                iframe.onload = function() {
+                    this.style.opacity = '1';
+                };
+
                 return iframe;
             }
 
@@ -1430,7 +1460,10 @@
             function closeVideo() {
                 const iframe = inner.querySelector('iframe');
                 if (iframe) {
-                    iframe.remove();
+                    iframe.style.opacity = '0';
+                    setTimeout(() => {
+                        iframe.remove();
+                    }, 300);
                 }
                 inner.setAttribute('aria-hidden', 'true');
                 heroVisual.classList.remove('video-active');
