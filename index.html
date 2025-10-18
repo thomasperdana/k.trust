@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Legacy Trust System - Building Generational Wealth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #7c3aed;
+            --accent-color: #f59e0b;
+            --dark-bg: #0f172a;
+            --darker-bg: #020617;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--card-bg) 100%);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%231e293b" stroke-width="0.5"/></svg>');
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .trust-diagram {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            position: relative;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 60px;
+            font-size: 1.1rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        /* Rockfeller System Visualization */
+        .rockefeller-system {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .system-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .flow-item {
+            background: var(--darker-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flow-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .flow-arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 2px;
+            background: var(--primary-color);
+            z-index: 1;
+        }
+
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid var(--primary-color);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .benefit-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-top: 5px;
+        }
+
+        /* Action Steps */
+        .action-steps {
+            counter-reset: step-counter;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        /* Case Study Section */
+        .case-study {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .calculation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .calculation-table th,
+        .calculation-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .calculation-table th {
+            background: var(--darker-bg);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .calculation-table tr:hover {
+            background: rgba(74, 107, 255, 0.1);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            height: 400px;
+            position: relative;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .grid-3,
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .system-flow {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .flow-arrow {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 40px 0;
+            width: 50%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 40px;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 40px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            top: 10px;
+            z-index: 2;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -10px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -10px;
+        }
+
+        .timeline-content {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Progress Bars */
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--darker-bg);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 5px;
+            transition: width 1s ease-out;
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--darker-bg);
+            color: var(--text-primary);
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                Legacy Trust System
+            </div>
+            <ul class="nav-links">
+                <li><a href="#understanding">Understanding</a></li>
+                <li><a href="#rockefeller">Rockefeller Model</a></li>
+                <li><a href="#components">Components</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#action">Action Steps</a></li>
+                <li><a href="#case-study">Case Study</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in-up">
+                    <h1>Creating a Family Legacy Using a Trust System</h1>
+                    <p>Build lasting wealth across generations with a powerful trust-based family banking system modeled after the Rockefeller family's success.</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <h3>70+</h3>
+                            <p>Years of Proven Success</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>10x</h3>
+                            <p>Potential Wealth Growth</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>100%</h3>
+                            <p>Control Over Your Legacy</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <svg class="trust-diagram" viewBox="0 0 500 400">
+                        <!-- Trust Circle -->
+                        <circle cx="250" cy="200" r="150" fill="none" stroke="#4a6bff" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+                        
+                        <!-- Central Trust -->
+                        <rect x="200" y="170" width="100" height="60" rx="10" fill="#1e293b" stroke="#4a6bff" stroke-width="2"/>
+                        <text x="250" y="195" text-anchor="middle" fill="#f1f5f9" font-size="14" font-weight="bold">FAMILY TRUST</text>
+                        <text x="250" y="215" text-anchor="middle" fill="#94a3b8" font-size="12">Control Center</text>
+                        
+                        <!-- Insurance Policies -->
+                        <rect x="80" y="80" width="90" height="50" rx="8" fill="#1e293b" stroke="#7c3aed" stroke-width="2"/>
+                        <text x="125" y="100" text-anchor="middle" fill="#f1f5f9" font-size="12">Life Insurance</text>
+                        <text x="125" y="115" text-anchor="middle" fill="#94a3b8" font-size="10">Policies</text>
+                        
+                        <!-- Family Members -->
+                        <circle cx="125" cy="320" r="30" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                        <text x="125" y="325" text-anchor="middle" fill="#f1f5f9" font-size="12">Family</text>
+                        
+                        <circle cx="375" cy="320" r="30" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                        <text x="375" y="325" text-anchor="middle" fill="#f1f5f9" font-size="12">Family</text>
+                        
+                        <!-- Loans -->
+                        <rect x="330" y="80" width="90" height="50" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                        <text x="375" y="100" text-anchor="middle" fill="#f1f5f9" font-size="12">Business</text>
+                        <text x="375" y="115" text-anchor="middle" fill="#94a3b8" font-size="10">Loans</text>
+                        
+                        <!-- Connection Lines -->
+                        <line x1="125" y1="130" x2="200" y2="170" stroke="#4a6bff" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="330" y1="130" x2="300" y2="170" stroke="#4a6bff" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="125" y1="290" x2="200" y2="230" stroke="#4a6bff" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="375" y1="290" x2="300" y2="230" stroke="#4a6bff" stroke-width="1.5" opacity="0.7"/>
+                        
+                        <!-- Arrows showing flow -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#4a6bff" />
+                            </marker>
+                        </defs>
+                        
+                        <path d="M 125 290 Q 160 260 200 230" fill="none" stroke="#4a6bff" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.7"/>
+                        <path d="M 300 230 Q 340 260 375 290" fill="none" stroke="#4a6bff" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.7"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Understanding Trust Section -->
+    <section id="understanding" class="container">
+        <h2 class="section-title">Understanding the Purpose of a Trust</h2>
+        <p class="section-subtitle">A trust is a powerful legal entity that acts as your instruction manual for wealth distribution and preservation</p>
+        
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #4a6bff, #7c3aed);">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3 class="card-title">What is a Trust?</h3>
+                <p class="card-text">A trust is a legal entity that holds and manages assets on behalf of beneficiaries according to a set of instructions you define. It acts as an "instruction manual" for your assets after you pass away, ensuring your wishes are followed precisely.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="card-title">Why Use a Trust?</h3>
+                <p class="card-text">Trusts provide multiple advantages including bypassing probate, controlling asset distribution, estate tax planning, and creating perpetuity for wealth preservation across generations.</p>
+            </div>
+        </div>
+        
+        <div class="grid-3" style="margin-top: 40px;">
+            <div class="card">
+                <div class="card-icon" style="background: rgba(74, 107, 255, 0.2); color: #4a6bff;">
+                    <i class="fas fa-gavel"></i>
+                </div>
+                <h3 class="card-title">Bypass Probate</h3>
+                <p class="card-text">Avoid the lengthy and costly probate process where courts and attorneys control asset distribution.</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 95%;"></div>
+                </div>
+                <small style="color: var(--text-secondary);">Saves 6-18 months & 5-10% in fees</small>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon" style="background: rgba(124, 58, 237, 0.2); color: #7c3aed;">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="card-title">Control Distribution</h3>
+                <p class="card-text">You decide how and when your assets are distributed, protecting your family from mismanagement.</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%;"></div>
+                </div>
+                <small style="color: var(--text-secondary);">Complete control over terms</small>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="card-title">Tax Planning</h3>
+                <p class="card-text">Reduce or avoid estate taxes that your heirs might otherwise have to pay on inherited assets.</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                </div>
+                <small style="color: var(--text-secondary);">Potential 40% tax savings</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rockefeller System Section -->
+    <section id="rockefeller" style="background: var(--darker-bg);">
+        <div class="container">
+            <h2 class="section-title">The Rockefeller Family Banking System</h2>
+            <p class="section-subtitle">A model example of generational wealth preservation through trust-based family banking</p>
+            
+            <div class="rockefeller-system">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary-color);">How the System Works</h3>
+                
+                <div class="system-flow">
+                    <div class="flow-item">
+                        <i class="fas fa-baby" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+                        <h4>Birth</h4>
+                        <p>Trust purchases whole life policy for each family member</p>
+                    </div>
+                    
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-item">
+                        <i class="fas fa-hand-holding-usd" style="font-size: 2rem; color: var(--secondary-color); margin-bottom: 10px;"></i>
+                        <h4>Loans</h4>
+                        <p>Family borrows from trust at 7% interest</p>
+                    </div>
+                    
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-item">
+                        <i class="fas fa-percentage" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 10px;"></i>
+                        <h4>Spread</h4>
+                        <p>Trust earns 2% spread (7% - 5% cost)</p>
+                    </div>
+                    
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-item">
+                        <i class="fas fa-infinity" style="font-size: 2rem; color: var(--success-color); margin-bottom: 10px;"></i>
+                        <h4>Perpetuity</h4>
+                        <p>Death benefits grow trust for future generations</p>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="growthChart"></canvas>
+                </div>
+                
+                <div class="grid-3" style="margin-top: 40px;">
+                    <div class="card">
+                        <h4 style="color: var(--primary-color); margin-bottom: 15px;">
+                            <i class="fas fa-coins"></i> Initial Investment
+                        </h4>
+                        <p style="font-size: 2rem; font-weight: bold; color: var(--text-primary);">$1M</p>
+                        <p style="color: var(--text-secondary);">Starting cash value in policies</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                            <i class="fas fa-chart-line"></i> Growth Rate
+                        </h4>
+                        <p style="font-size: 2rem; font-weight: bold; color: var(--text-primary);">5.5%</p>
+                        <p style="color: var(--text-secondary);">Annual dividend on cash value</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4 style="color: var(--accent-color); margin-bottom: 15px;">
+                            <i class="fas fa-hourglass-half"></i> Time Horizon
+                        </h4>
+                        <p style="font-size: 2rem; font-weight: bold; color: var(--text-primary);">70+ Years</p>
+                        <p style="color: var(--text-secondary);">Multi-generational wealth building</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Components Section -->
+    <section id="components" class="container">
+        <h2 class="section-title">Key Components of a Trust-Based Family Banking System</h2>
+        <p class="section-subtitle">Understanding the essential elements that make this system work</p>
+        
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #4a6bff, #10b981);">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <h3 class="card-title">Ownership Structure</h3>
+                <p class="card-text">The trust owns the whole life insurance policies and is the beneficiary of the death benefits. This structure helps avoid probate and can reduce estate taxes if properly set up.</p>
+                <div style="margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Trust Ownership</span>
+                        <span style="color: var(--success-color);">100%</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Probate Avoidance</span>
+                        <span style="color: var(--success-color);">100%</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Tax Efficiency</span>
+                        <span style="color: var(--success-color);">High</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #7c3aed, #f59e0b);">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <h3 class="card-title">Trustees and Rules</h3>
+                <p class="card-text">Trustees manage the trust and enforce rules such as loan approval processes, interest rates charged, and ensuring premium payments are always made to keep policies active.</p>
+                <ul style="margin-top: 20px; padding-left: 20px; color: var(--text-secondary);">
+                    <li style="margin-bottom: 10px;">Professional oversight</li>
+                    <li style="margin-bottom: 10px;">Clear loan guidelines</li>
+                    <li style="margin-bottom: 10px;">Interest rate policies</li>
+                    <li>Regular compliance checks</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+                    <i class="fas fa-hand-holding-dollar"></i>
+                </div>
+                <h3 class="card-title">Loan Management</h3>
+                <p class="card-text">Family members submit loan proposals reviewed by trustees. Loans are granted if the plan is sound, with failure to repay resulting in asset liquidation but not credit destruction.</p>
+                <div style="margin-top: 20px;">
+                    <div style="background: var(--darker-bg); padding: 15px; border-radius: 8px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Approval Rate</span>
+                            <span>85%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Default Rate</span>
+                            <span>&lt;5%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Recovery Method</span>
+                            <span>Death Benefit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" style="background: var(--darker-bg);">
+        <div class="container">
+            <h2 class="section-title">Benefits of This System</h2>
+            <p class="section-subtitle">Why the trust-based family banking system creates lasting generational wealth</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-fortress-alt"></i>
+                    </div>
+                    <div>
+                        <h3>Control Over Family Wealth</h3>
+                        <p>No money leaves the family; all payments and interest return to the trust, growing the family's wealth exponentially over time.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div>
+                        <h3>Tax Advantages</h3>
+                        <p>Death benefits are paid tax-free to the trust, and the trust may get tax deductions for premiums paid on policies.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                    <div>
+                        <h3>Avoid Probate and Estate Taxes</h3>
+                        <p>Proper ownership and beneficiary designations help bypass probate and reduce estate taxes significantly.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <div>
+                        <h3>Legacy and Perpetuity</h3>
+                        <p>The trust can be structured to provide ongoing benefits, ensuring the family legacy continues indefinitely.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container" style="margin-top: 40px;">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Action Steps Section -->
+    <section id="action" class="container">
+        <h2 class="section-title">Actionable Advice to Start Building Your Legacy</h2>
+        <p class="section-subtitle">Step-by-step guide to implementing your family trust system</p>
+        
+        <div class="action-steps">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Educate Yourself and Your Family</h3>
+                    <p>Teach your children how money works and how to control it, including the concept of being the bank. Financial education is the foundation of lasting wealth.</p>
+                    <div class="tooltip">
+                        <i class="fas fa-info-circle" style="color: var(--primary-color);"></i>
+                        <span class="tooltiptext">Start financial education as early as age 6 with basic concepts</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Consult Professionals</h3>
+                    <p>Work with experienced estate planning attorneys and CPAs who understand trusts and whole life insurance structures. Professional guidance is crucial.</p>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Set Up a Trust</h3>
+                    <p>Decide on the type of trust (revocable, irrevocable, spendthrift, etc.) that fits your family's needs. The trust should own your whole life insurance policies.</p>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Fund Whole Life Insurance Policies</h3>
+                    <p>Purchase whole life insurance policies owned by the trust on family members, especially children, to build cash value and death benefits over time.</p>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Create Family Banking Rules</h3>
+                    <p>Establish clear rules for loan requests, interest rates, repayment, and use of funds to ensure responsible management and growth of the trust.</p>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <h3>Use the Trust as Your Bank</h3>
+                    <p>Encourage family members to borrow from the trust for major expenses instead of traditional banks, keeping interest and payments within the family.</p>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-number">7</div>
+                <div class="step-content">
+                    <h3>Maintain and Monitor</h3>
+                    <p>Regularly review the trust's performance, ensure premium payments are made, and adjust rules as needed to adapt to family growth and changes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study Section -->
+    <section id="case-study" style="background: var(--darker-bg);">
+        <div class="container">
+            <h2 class="section-title">Case Study: Reverse Engineering the Rockefeller System</h2>
+            <p class="section-subtitle">Detailed calculations and analysis of a family trust system in action</p>
+            
+            <div class="case-study">
+                <h3 style="color: var(--primary-color); margin-bottom: 20px;">Initial Setup</h3>
+                
+                <table class="calculation-table">
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Starting Trust Cash Value</td>
+                        <td>$1,000,000</td>
+                        <td>Whole life insurance policies owned by the trust</td>
+                    </tr>
+                    <tr>
+                        <td>Death Benefit on Policies</td>
+                        <td>$10,000,000</td>
+                        <td>10x cash value ratio</td>
+                    </tr>
+                    <tr>
+                        <td>Loan Interest Rate</td>
+                        <td>7%</td>
+                        <td>Charged by trust to family members</td>
+                    </tr>
+                    <tr>
+                        <td>Cost of Funds</td>
+                        <td>5%</td>
+                        <td>Paid to insurance company</td>
+                    </tr>
+                    <tr>
+                        <td>Interest Spread</td>
+                        <td>2%</td>
+                        <td>Net earnings for the trust</td>
+                    </tr>
+                </table>
+                
+                <h3 style="color: var(--primary-color); margin: 30px 0 20px;">Example Loan Calculation</h3>
+                
+                <div class="grid-2">
+                    <div class="card">
+                        <h4 style="margin-bottom: 15px;">Business Loan Details</h4>
+                        <div style="background: var(--darker-bg); padding: 15px; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Loan Amount:</span>
+                                <span style="font-weight: bold;">$50,000</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Interest Rate:</span>
+                                <span style="font-weight: bold;">7%</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Annual Interest Income:</span>
+                                <span style="font-weight: bold; color: var(--success-color);">$3,500</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Cost of Funds:</span>
+                                <span style="font-weight: bold;">$2,500</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border-color);">
+                                <span>Net Spread:</span>
+                                <span style="font-weight: bold; color: var(--accent-color);">$1,000/year</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4 style="margin-bottom: 15px;">Trust Growth Impact</h4>
+                        <div style="background: var(--darker-bg); padding: 15px; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Dividend on Cash Value:</span>
+                                <span style="font-weight: bold;">$55,000</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Interest Spread:</span>
+                                <span style="font-weight: bold;">$1,000</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Death Benefit Growth:</span>
+                                <span style="font-weight: bold;">Compounding</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border-color);">
+                                <span>Total Annual Growth:</span>
+                                <span style="font-weight: bold; color: var(--success-color);">~5.6%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="color: var(--primary-color); margin: 30px 0 20px;">Long-Term Projection</h3>
+                
+                <div class="chart-container">
+                    <canvas id="projectionChart"></canvas>
+                </div>
+                
+                <div class="grid-3" style="margin-top: 30px;">
+                    <div class="card">
+                        <h4 style="color: var(--success-color); margin-bottom: 10px;">10 Years</h4>
+                        <p style="font-size: 1.5rem; font-weight: bold;">$1.7M</p>
+                        <p style="color: var(--text-secondary);">70% growth</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 10px;">30 Years</h4>
+                        <p style="font-size: 1.5rem; font-weight: bold;">$5.1M</p>
+                        <p style="color: var(--text-secondary);">410% growth</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4 style="color: var(--accent-color); margin-bottom: 10px;">70 Years</h4>
+                        <p style="font-size: 1.5rem; font-weight: bold;">$30M+</p>
+                        <p style="color: var(--text-secondary);">2900% growth</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Legacy Trust System. Building generational wealth through strategic trust planning.</p>
+            <p style="margin-top: 10px; color: var(--text-secondary);">
+                <i class="fas fa-info-circle"></i> This information is for educational purposes. Consult with qualified professionals before implementing any trust strategy.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Growth Chart
+        const growthCtx = document.getElementById('growthChart').getContext('2d');
+        new Chart(growthCtx, {
+            type: 'line',
+            data: {
+                labels: ['Year 0', 'Year 10', 'Year 20', 'Year 30', 'Year 40', 'Year 50', 'Year 60', 'Year 70'],
+                datasets: [{
+                    label: 'Trust Value ($M)',
+                    data: [1, 1.7, 2.9, 5.1, 8.9, 15.5, 27.1, 47.3],
+                    borderColor: '#4a6bff',
+                    backgroundColor: 'rgba(74, 107, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Traditional Investment ($M)',
+                    data: [1, 1.5, 2.3, 3.4, 5.1, 7.6, 11.4, 17.0],
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#f1f5f9'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Trust Growth vs Traditional Investment (70 Years)',
+                        color: '#f1f5f9',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#94a3b8'
+                        },
+                        grid: {
+                            color: '#334155'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#94a3b8'
+                        },
+                        grid: {
+                            color: '#334155'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Comparison Chart
+        const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+        new Chart(comparisonCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Control', 'Tax Efficiency', 'Growth Rate', 'Risk Protection', 'Legacy Value', 'Flexibility'],
+                datasets: [{
+                    label: 'Trust System',
+                    data: [95, 90, 85, 95, 100, 80],
+                    borderColor: '#4a6bff',
+                    backgroundColor: 'rgba(74, 107, 255, 0.2)',
+                    pointBackgroundColor: '#4a6bff'
+                }, {
+                    label: 'Traditional Estate',
+                    data: [40, 30, 60, 50, 60, 90],
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                    pointBackgroundColor: '#ef4444'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#f1f5f9'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Trust System vs Traditional Estate Planning',
+                        color: '#f1f5f9',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: '#334155'
+                        },
+                        grid: {
+                            color: '#334155'
+                        },
+                        pointLabels: {
+                            color: '#f1f5f9'
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            backdropColor: 'transparent'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Projection Chart
+        const projectionCtx = document.getElementById('projectionChart').getContext('2d');
+        new Chart(projectionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Initial', 'After 10 Years', 'After 20 Years', 'After 30 Years', 'After 40 Years', 'After 50 Years'],
+                datasets: [{
+                    label: 'Cash Value ($M)',
+                    data: [1, 1.7, 2.9, 5.1, 8.9, 15.5],
+                    backgroundColor: '#4a6bff'
+                }, {
+                    label: 'Death Benefit ($M)',
+                    data: [10, 17, 29, 51, 89, 155],
+                    backgroundColor: '#7c3aed'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#f1f5f9'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Trust Asset Growth Projection',
+                        color: '#f1f5f9',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#94a3b8'
+                        },
+                        grid: {
+                            color: '#334155'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#94a3b8'
+                        },
+                        grid: {
+                            color: '#334155'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animate progress bars on scroll
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
