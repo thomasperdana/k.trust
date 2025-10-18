@@ -61,8 +61,10 @@
             font-size: 1.8rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            color: transparent;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -101,7 +103,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%231e293b" stroke-width="0.5"/></svg>');
+            background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%231e293b" stroke-width="0.5" opacity="0.1"/></svg>');
             opacity: 0.1;
             z-index: 0;
         }
@@ -120,6 +122,7 @@
             margin-bottom: 20px;
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.2;
         }
@@ -154,6 +157,7 @@
             margin-bottom: 20px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -573,6 +577,7 @@
             width: 100%;
             height: 100%;
             border: 0;
+            border-radius: 12px;
             position: absolute;
             top: 0;
             left: 0;
@@ -584,14 +589,21 @@
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            padding: 12px 18px;
+            padding: 14px 24px;
             font-size: 1rem;
+            font-weight: 600;
             border-radius: 999px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 8px 20px rgba(74,107,255,0.2);
+            box-shadow: 0 8px 20px rgba(74,107,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .show-video:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(74,107,255,0.4);
         }
 
         .show-video:focus {
@@ -604,13 +616,24 @@
             top: 12px;
             right: 12px;
             z-index: 4;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             color: #fff;
             border: none;
-            padding: 8px 10px;
+            padding: 10px 12px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-video:hover {
+            background: rgba(239,68,68,0.8);
+            transform: scale(1.1);
+        }
+
+        .close-video:focus {
+            outline: 2px solid rgba(239,68,68,0.6);
+            outline-offset: 2px;
         }
 
         .svg-container {
@@ -691,8 +714,12 @@
                 </div>
                 <div class="hero-visual">
                     <div class="video-wrapper">
-                        <button class="show-video" aria-label="Play video">▶ Watch Video</button>
-                        <button class="close-video" aria-label="Close video" style="display:none">✕</button>
+                        <button class="show-video" aria-label="Play video">
+                            <i class="fas fa-play"></i> Watch Video
+                        </button>
+                        <button class="close-video" aria-label="Close video" style="display:none">
+                            <i class="fas fa-times"></i>
+                        </button>
                         <div class="video-inner" data-src="https://www.youtube.com/embed/m7zUUX8O9dk" aria-hidden="true">
                             <!-- iframe will be injected lazily -->
                         </div>
@@ -1429,49 +1456,60 @@
             const src = inner.getAttribute('data-src');
 
             function createIframe(autoplay = true) {
-                if (inner.querySelector('iframe')) return inner.querySelector('iframe');
+                // Remove any existing iframe first
+                const existingIframe = inner.querySelector('iframe');
+                if (existingIframe) {
+                    existingIframe.remove();
+                }
+
                 const iframe = document.createElement('iframe');
-                iframe.setAttribute('src', src + (autoplay ? '?rel=0&modestbranding=1&autoplay=1&mute=1' : '?rel=0&modestbranding=1'));
+                const finalSrc = autoplay ?
+                    src + '?rel=0&modestbranding=1&autoplay=1&mute=1&enablejsapi=1' :
+                    src + '?rel=0&modestbranding=1&enablejsapi=1';
+
+                iframe.setAttribute('src', finalSrc);
                 iframe.setAttribute('loading', 'lazy');
-                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
                 iframe.setAttribute('allowfullscreen', '');
-                iframe.style.opacity = '0';
-                iframe.style.transition = 'opacity 0.3s ease-in-out';
+                iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = '0';
+                iframe.style.borderRadius = '12px';
+
+                // Add error handling
+                iframe.onerror = function() {
+                    console.error('YouTube video failed to load');
+                    inner.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #94a3b8;"><i class="fas fa-exclamation-triangle"></i> Video unavailable</div>';
+                };
+
                 inner.appendChild(iframe);
                 inner.setAttribute('aria-hidden', 'false');
-
-                // Fade in the iframe once loaded
-                iframe.onload = function() {
-                    this.style.opacity = '1';
-                };
 
                 return iframe;
             }
 
             function openVideo() {
-                createIframe(true);
+                const iframe = createIframe(true);
                 heroVisual.classList.add('video-active');
                 btn.style.display = 'none';
                 closeBtn.style.display = 'block';
-                // move focus to close button for accessibility
                 closeBtn.focus();
             }
 
             function closeVideo() {
                 const iframe = inner.querySelector('iframe');
                 if (iframe) {
-                    iframe.style.opacity = '0';
-                    setTimeout(() => {
-                        iframe.remove();
-                    }, 300);
+                    iframe.remove();
                 }
                 inner.setAttribute('aria-hidden', 'true');
                 heroVisual.classList.remove('video-active');
-                btn.style.display = '';
+                btn.style.display = 'block';
                 closeBtn.style.display = 'none';
                 btn.focus();
             }
 
+            // Add event listeners
             btn.addEventListener('click', openVideo);
             btn.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -1488,24 +1526,27 @@
                 }
             });
 
-            // Preload placeholder when wrapper intersects viewport (no autoplay)
-            const preloadObserver = new IntersectionObserver((entries, obs) => {
-                entries.forEach(en => {
-                    if (en.isIntersecting) {
-                        if (!inner.querySelector('iframe')) {
-                            // create a tiny placeholder iframe to warm up connection
-                            const placeholder = document.createElement('iframe');
-                            placeholder.setAttribute('loading', 'lazy');
-                            placeholder.setAttribute('src', 'about:blank');
-                            placeholder.style.opacity = '0';
-                            inner.appendChild(placeholder);
-                        }
-                        obs.disconnect();
+            // Intersection Observer for preloading
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Preload the video URL to warm up the connection
+                        const link = document.createElement('link');
+                        link.rel = 'preconnect';
+                        link.href = 'https://www.youtube.com';
+                        document.head.appendChild(link);
+
+                        const link2 = document.createElement('link');
+                        link2.rel = 'preconnect';
+                        link2.href = 'https://www.google.com';
+                        document.head.appendChild(link2);
+
+                        observer.disconnect();
                     }
                 });
-            }, {threshold: 0.25});
+            }, { threshold: 0.25 });
 
-            preloadObserver.observe(wrapper);
+            observer.observe(wrapper);
         })();
     </script>
 </body>
